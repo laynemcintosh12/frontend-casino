@@ -2,45 +2,50 @@ import React, { useState, useEffect } from "react";
 import { jwtDecode } from 'jwt-decode';
 
 const BlackjackStart = ({ game, setGameState, setBalance }) => {
-    const [currentBet, setCurrentBet] = useState(game.currentBet);
+    const [inputBet, setInputBet] = useState(0); 
 
     useEffect(() => {
-        // Update currentBet state whenever game.currentBet changes
-        setCurrentBet(game.currentBet);
-        // Update balance state whenever game.balance changes
+        setInputBet(game.startingBet);
+        console.log(game.startingBet)
         setBalance(game.balance);
-    }, [game.currentBet, game.balance, setBalance]); 
+    }, [game.balance, game.startingBet, setBalance]); 
 
-    const handleIncreaseBet = () => {
-        const token = localStorage.getItem("token");
-        const username = jwtDecode(token).username;
-        game.increaseBet(5, username).then(() => {
-            // After increasing bet, update currentBet state
-            setCurrentBet(game.currentBet);
-            // After increasing bet, update balance state
-            setBalance(game.balance);
-        });
-    }
 
     const handleStart = async () => {
-        if (currentBet === 0) {
-            alert("You must place a bet to start the game!");
+        const startingBet = parseInt(inputBet); // Parse inputBet to integer
+        if (startingBet === 0 || isNaN(startingBet)) {
+            alert("You must place a valid bet to start the game!");
         } 
-        else {
-            await game.startGame();
-            // After starting game, update gameState state
-            setGameState(game.gameState);
-            // After starting game, update balance state
-            await game.getBalance();
-            setBalance(game.balance);
+        else if (startingBet > game.balance) { // Check if bet exceeds balance
+            alert("Your bet cannot exceed your balance!");
         }
+        else {
+            let token = localStorage.getItem("token");
+            let username = jwtDecode(token).username;
+            game.increaseBet(startingBet, username).then(async () => {
+                await game.startGame((inputBet));
+                setGameState(game.gameState);
+                await game.getBalance();
+                setBalance(game.balance);
+            });
+        }
+    }
+
+    const handleInputChange = (e) => {
+        setInputBet(e.target.value); // Update inputBet state
     }
 
     return (
         <div className="d-flex justify-content-center"> 
             <div className="text-center bg-dark rounded p-4 mt-3" style={{ width: '50%' }}>
-                <h6 className="text-white mb-4">Click the button to increase your starting bet by 5, each time you click it will increase!</h6>
-                <button className="btn btn-primary btn-lg rounded-circle mb-4" style={{ width: '150px', height: '150px', fontSize: "xx-large" }} onClick={handleIncreaseBet}>{currentBet}</button>
+                <h6 className="text-white mb-4">Input your starting bet below!</h6>
+                <input 
+                    type="number" 
+                    className="form-control mb-4" 
+                    value={inputBet} 
+                    onChange={handleInputChange} 
+                    min="0"
+                />
                 <button className="btn btn-success btn-block" onClick={handleStart}>Start</button>
             </div>
         </div>
@@ -48,4 +53,3 @@ const BlackjackStart = ({ game, setGameState, setBalance }) => {
 }
 
 export default BlackjackStart;
-

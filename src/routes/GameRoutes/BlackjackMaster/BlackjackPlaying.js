@@ -1,10 +1,12 @@
 import React, { useEffect, useState, useCallback } from "react";
 import Hand from './Hand';
 import Actions from './Actions';
+import Info from '../Info';
 
 const BlackjackPlaying = ({ game, setGameState, setBalance }) => {
   const [playerHand, setPlayerHand] = useState([]);
   const [dealerHand, setDealerHand] = useState([]);
+  const [showInfo, setShowInfo] = useState(false); // State to control info display
 
   const updatePlayerHand = useCallback(() => {
     setPlayerHand([...game.playerHand]);
@@ -31,7 +33,9 @@ const BlackjackPlaying = ({ game, setGameState, setBalance }) => {
 
   return (
     <div>
-      <div className="actions-container">
+      <div className="container text-center"> 
+        <button className="btn btn-info mb-2 mt-2" onClick={() => setShowInfo(!showInfo)}>Get Help</button>
+        {showInfo && <Info gameType="blackjack" />}
         <Actions game={game} setBalance={setBalance} updatePlayerHand={updatePlayerHand} updateDealerHand={updateDealerHand} setGameState={setGameState} />
       </div>
       <div className="hand-container">

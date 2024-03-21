@@ -44,7 +44,7 @@ const Trivia = ({ setBalance }) => {
         // give winnings to user based off their currentPoints
         let token = localStorage.getItem("token");
         let decoded = jwtDecode(token);
-        let winnings = currentPoints * 1000;
+        let winnings = currentPoints * 500;
         CasinoAPI.giveWinnings(decoded.username, winnings);
         // set new balance
         let currentBalance = localStorage.getItem("balance");
@@ -78,7 +78,7 @@ const Trivia = ({ setBalance }) => {
                   <div>
                     <h2 className="card-title">Trivia</h2>
                     <h5 className="card-title">Current Points: {currentPoints}</h5>
-                    <h6 className="card-title">For each point you receive, you will gain 1000 coins</h6>
+                    <h6 className="card-title">For each point you receive, you will gain 500 coins</h6>
                   </div>
                   <br />
                   {triviaQuestions.length > 0 &&

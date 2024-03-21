@@ -24,18 +24,10 @@ function NavBar({ logout, user, setUser, balance, setBalance }) {
           <Nav className='mr-3'>
             {user ? (
               <>
-
-                <Nav.Item as={NavLink} to="/trivia">
-                  <img
-                    src="https://cdn.pixabay.com/photo/2012/04/24/13/16/money-40015_1280.png"
-                    alt="Trivia"
-                    style={{ width: '20px', marginRight: '20px', marginTop: '10px', cursor: 'pointer' }}
-                  />
-                </Nav.Item>
-
                 <Nav.Item className='text-light mr-3 mt-2'>{balance ? `Balance: ${balance}` : 'Loading...' }</Nav.Item>
                 
                 <NavDropdown className="text-center" title="Menu" id="basic-nav-dropdown" menuVariant="dark">
+                    <NavDropdown.Item as={NavLink} to="/trivia">Add Coins</NavDropdown.Item>
                     <NavDropdown.Item as={NavLink} to="/profile">Account</NavDropdown.Item>
                     <NavDropdown.Item as={NavLink} onClick={logout}>Log Out</NavDropdown.Item>
                 </NavDropdown>

@@ -13,6 +13,7 @@ class BlackjackClass {
         this.dealerHandTotal = 0;
         this.currentBet = 0;
         this.balance = 0;
+        this.startingBet = 0;
     }
 
     getBalance() {
@@ -20,12 +21,14 @@ class BlackjackClass {
         return this.balance;
     }
 
-    async startGame(){
+    async startGame(bet){
         // set gameState to drawing
         this.gameState = "drawing";
         // get deck id
         let res = await Shuffle(6);
         this.deckID = res.data.deck_id;
+        // set starting bet
+        this.startingBet = bet;
     }
 
     async dealCard(){
@@ -212,16 +215,6 @@ class BlackjackClass {
         localStorage.setItem("balance", this.balance);
         this.currentBet *= 2;
     }
-
-    async tripleBet(username){
-        let oldBet = this.currentBet;
-        let newBet = oldBet * 3;
-        let bet = newBet - oldBet;
-        await CasinoApi.placeBet(username, bet);
-        this.balance -= bet;
-        localStorage.setItem("balance", this.balance);
-        this.currentBet = newBet;
-    }   
 }
 
 export default BlackjackClass;

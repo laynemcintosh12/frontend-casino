@@ -16,7 +16,7 @@ const TriviaResult = ({ totalPoints, resetGame }) => {
     <div className="text-center">
       <h2>Game Over</h2>
       <h3>Total Points: {totalPoints}</h3>
-      <p>You have earned {totalPoints * 1000} coins.</p>
+      <p>You have earned {totalPoints * 500} coins.</p>
       <button className="btn btn-primary mr-2" onClick={handlePlayAgain}>
         Play Again
       </button>
