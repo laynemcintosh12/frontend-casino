@@ -23,12 +23,17 @@ const BlackjackStart = ({ game, setGameState, setBalance }) => {
     }
 
     const handleStart = async () => {
-        await game.startGame();
-        // After starting game, update gameState state
-        setGameState(game.gameState);
-        // After starting game, update balance state
-        await game.getBalance();
-        setBalance(game.balance);
+        if (currentBet === 0) {
+            alert("You must place a bet to start the game!");
+        } 
+        else {
+            await game.startGame();
+            // After starting game, update gameState state
+            setGameState(game.gameState);
+            // After starting game, update balance state
+            await game.getBalance();
+            setBalance(game.balance);
+        }
     }
 
     return (

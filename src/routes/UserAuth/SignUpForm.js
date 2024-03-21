@@ -15,10 +15,26 @@ function SignUpForm({ signUp }) {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    signUp(formData);
-    navigate("/");
+      e.preventDefault();
+
+      if (formData.email.trim() === '') {
+          alert('Please enter an email');
+          return;
+      } else if (formData.username.trim() === '') {
+          alert('Please enter a username');
+          return;
+      } else if (formData.password.trim() === '') {
+          alert('Please enter a password');
+          return;
+      } else if (formData.password.length < 5) {
+          alert('Password must be at least 5 characters');
+          return;
+      } else {
+          signUp(formData);
+          navigate("/");
+      }
   };
+
 
   return (
     <div className="container bg-dark pt-3 rounded mt-5">
