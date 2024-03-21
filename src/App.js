@@ -72,7 +72,13 @@ function App() {
 
   async function signUp(data) {
     let res = await CasinoApi.signup(data);
-    login(res);
+    // decode token to pass info into login
+    let decoded = jwtDecode(res);
+    let loginData = {
+      username: decoded.username,
+      password: data.password
+    }
+    login(loginData);
   }
 
   // function to check if token is present or user logged in

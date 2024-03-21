@@ -16,21 +16,29 @@ function SignUpForm({ signUp }) {
 
   const handleSubmit = (e) => {
       e.preventDefault();
+      let email = formData.email.trim();
+      let username = formData.username.trim();
+      let password = formData.password.trim();
+      let signUpData = { 
+        email,
+        username,
+        password
+      };
 
-      if (formData.email.trim() === '') {
+      if (email === '') {
           alert('Please enter an email');
           return;
-      } else if (formData.username.trim() === '') {
+      } else if (username === '') {
           alert('Please enter a username');
           return;
-      } else if (formData.password.trim() === '') {
+      } else if (password === '') {
           alert('Please enter a password');
           return;
-      } else if (formData.password.length < 5) {
+      } else if (password.length <= 5) {
           alert('Password must be at least 5 characters');
           return;
       } else {
-          signUp(formData);
+          signUp(signUpData);
           navigate("/");
       }
   };
